@@ -79,4 +79,32 @@ app.post('/usuario', /*[verificaToken, verificaAdmin_Role],*/ function(req, res)
 
 });
 
+app.put('/usuario/:id', (req, res) => {
+
+    let body = req.body;
+    let id = req.params.id;
+
+    Usuario.findByIdAndUpdate(id, body, {new:true}, (err, usuarioDB)=> {
+        if(err){
+            return res.status(500).json({
+                ok: false,
+                err
+            });
+        }
+        if(!usuarioDB){
+            return res.status(400).json({
+                ok: false,
+                err
+            });
+        }
+
+        res.json({
+            ok: true,
+            usuarioDB
+        });
+
+    });
+
+});
+
 module.exports = app;
