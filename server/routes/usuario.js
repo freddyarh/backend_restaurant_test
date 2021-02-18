@@ -10,18 +10,20 @@ const { verificaToken } = require('../middlewares/autenticacion');
 const app = express();
 
 
-app.get('/usuario', verificaToken, (req, res) => {
+app.get('/usuario', /*verificaToken,*/ (req, res) => {
 
 
     let desde = req.query.desde || 0;
     desde = Number(desde);
 
+    // /usuario?desde=0&limite=5
+
     let limite = req.query.limite || 5;
     limite = Number(limite);
 
     Usuario.find({ estado: true }, 'nombre email role estado google img')
-        .skip(desde)
-        .limit(limite)
+        // .skip(desde)
+        // .limit(limite)
         .exec((err, usuarios) => {
 
             if (err) {
@@ -35,8 +37,8 @@ app.get('/usuario', verificaToken, (req, res) => {
 
                 res.json({
                     ok: true,
-                    usuarios,
-                    cuantos: conteo
+                    usuarios
+                    // cuantos: conteo
                 });
 
             });
@@ -44,6 +46,27 @@ app.get('/usuario', verificaToken, (req, res) => {
 
         });
 
+
+});
+
+app.get('/usuario/:id',( req, res ) => {
+
+    let body = req.body;
+    let id = req.params.id;
+
+    Usuario.findById(id,(err, usuario) => {
+
+        if(err){
+            return res.status(400).json({
+                ok: false,
+                err
+            });
+        }
+        return res.json({
+            ok: true,
+            usuario
+        });
+    });
 
 });
 
