@@ -17,7 +17,6 @@ app.put('/upload/:tipo/:id', function(req, res) {
     let tipo = req.params.tipo;
     let id = req.params.id;
 
-
     if (!req.files) /*|| Object.keys(req.files).length === 0)*/ {
         return res.status(400).json({
             ok: false,
@@ -89,8 +88,54 @@ app.put('/upload/:tipo/:id', function(req, res) {
 
 });
 
+app.get(`/uploads/:tipo/:id`, async(req, res) => {
+
+    // let tipo = req.params.tipo;
+    // let id = req.params.id;
+
+    const {id, tipo} = req.params;
+    let modelo;
+
+    switch (tipo) {
+        case 'usuarios':
+            modelo = await Usuario.findById(id);
+            if( !modelo ){
+                return res.status(400).json({
+                    msg: `No existe un usuario con el id ${ id }`
+                });
+            }
+        break;
+
+        case 'productos':
+            modelo = await Producto.findById(id);
+            if( !modelo ){
+                return res.status(400).json({
+                    msg: `No existe un producto con el id ${ id }`
+                });
+            }
+        break;
+
+        default:
+            return res.status(500).json({ msg: 'Se me olvido validar esto' });
+    }
+
+    // Limpiar imágenes previas
+    if ( modelo.img ) {
+        // Hay que borrar la imagen del servidor
+        const pathImagen = path.join( __dirname, '../../uploads', tipo, modelo.img );
+        if ( fs.existsSync( pathImagen ) ) {
+            return res.sendFile( pathImagen )
+        }
+    }
+
+    const pathImagen = path.join( __dirname, '../../assets/no-image.jpg');
+    res.sendFile( pathImagen );
+
+});
+
 function imagenUsuario(id, res, nombreArchivo) {
     Usuario.findById(id, (err, usuarioBD) => {
+        // console.log(usuarioDB);
         if (err) {
             borrarArchvo(nombreArchivo, 'usuarios');
 
@@ -107,7 +152,7 @@ function imagenUsuario(id, res, nombreArchivo) {
             return res.status(500).json({
                 ok: false,
                 err: {
-                    message: 'Usuario no existe'
+                    message: 'Usuario no existe1'
                 }
             })
         }
