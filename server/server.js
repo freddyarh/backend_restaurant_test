@@ -16,7 +16,7 @@ app.use(bodyParser.json())
 // Configuración global de rutas
 app.use(require('./routes/index'));
 
-mongoose.connect('mongodb://localhost:27017/cafe',{useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true}, (err, res) => {
+mongoose.connect('mongodb://localhost:27017/restaurante',{useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true}, (err, res) => {
     if(err) throw err;
 
     console.log('Base de datos online');

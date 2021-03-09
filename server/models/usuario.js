@@ -47,16 +47,10 @@ let usuarioSchema = new Schema({
 
 
 usuarioSchema.methods.toJSON = function() {
-
-    let user = this;
-    let userObject = user.toObject();
-    delete userObject.password;
-
-    return userObject;
+    const { __v, password, _id, ...usuario  } = this.toObject();
+    usuario.uid = _id;
+    return usuario;
 }
-
-
-usuarioSchema.plugin(uniqueValidator, { message: '{PATH} debe de ser único' });
 
 
 module.exports = mongoose.model('Usuario', usuarioSchema);

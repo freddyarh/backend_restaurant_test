@@ -1,41 +1,49 @@
-const express = require('express');
+// const express = require('express');
+const { Router } = require('express')
+const { check } = require('express-validator');
 
-let app = express();
+const { validarCampos } = require('../middlewares/validar-campos');
+const { validarJWT } = require('../middlewares/validar-jwt');
+
+const { crearcategoria } = require('../controllers/categorias');
+// let app = express();
+
+const router = Router();
 
 //Todas las categorias
-app.get('/categoria', async(req, res) => {
+router.get('/categoria', async(req, res) => {
 
     res.json('Todo ok');
 
 });
 
 //Obtener una categoria por ID
-app.get('/categoria/:id', async(req, res) => {
+router.get('/categoria/:id', async(req, res) => {
 
     res.json('get-id');
 
 });
 
 //Crear categoria privada con un toquen 
-app.post('/categoria', async(req, res) => {
-
-    res.json('post');
-
-});
+router.post('/categoria', [
+    validarJWT,
+    check('nombre','El nombre es obligatorio').not().isEmpty(),
+    validarCampos
+],crearcategoria);
 
 //actualizar categoria privada con un toquen 
-app.put('/categoria/:id', async(req, res) => {
+router.put('/categoria/:id', async(req, res) => {
 
     res.json('actualizar');
 
 });
 
 //borrar una categoria admin
-app.delete('/categoria/:id', async(req, res) => {
+router.delete('/categoria/:id', async(req, res) => {
 
     res.json('delete');
 
 });
 
 
-module.exports = app;
+module.exports = router;
