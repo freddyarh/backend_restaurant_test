@@ -23,8 +23,16 @@ const ProductoSchema = new Schema({
     },
     precio:{
         type: Number,
-        required: [true, 'El apellido es necesario']
-    }
+        required: [true, 'El precio es necesario']
+    },
+    categoria: {
+        type: Schema.Types.ObjectId,
+        ref: 'Categoria',
+        required: true
+    },
+    descripcion: { type: String },
+    disponible: { type: Boolean, defult: true },
+    img: { type: String },
 });
 
 ProductoSchema.methods.toJSON = function() {
