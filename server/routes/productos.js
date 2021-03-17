@@ -1,35 +1,38 @@
-
 const { Router } = require('express')
 const { check } = require('express-validator');
 
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
 
-const { crearProducto,
+const {
+    crearProducto,
     obtenerProductos,
-    obtenerProducto }  = require('../controllers/productos');
+    obtenerProducto
+} = require('../controllers/productos');
 
 
 const { existeCategoriaPorId, existeProductoPorId } = require('../helpers/db-validators');
 
 const router = Router();
 
-router.get('/', obtenerProductos );
+// Obtener todos los productos
 
-// Obtener una categoria por id - publico
-router.get('/:id',[
+router.get('/productos', obtenerProductos);
+
+// Obtener un producto por id - publico
+router.get('/producto/:id', [
     check('id', 'No es un id de Mongo válido').isMongoId(),
-    check('id').custom( existeProductoPorId ),
+    check('id').custom(existeProductoPorId),
     validarCampos,
-], obtenerProducto );
+], obtenerProducto);
 
-// Crear categoria - privado - cualquier persona con un token válido
-router.post('/productos', [ 
+// Crear producto - privado - cualquier persona con un token válido
+router.post('/producto', [
     validarJWT,
-    check('nombre','El nombre es obligatorio').not().isEmpty(),
-    check('categoria','No es un id de Mongo').isMongoId(),
-    check('categoria').custom( existeCategoriaPorId ),
+    check('nombre', 'El nombre es obligatorio').not().isEmpty(),
+    check('categoria', 'No es un id de Mongo').isMongoId(),
+    check('categoria').custom(existeCategoriaPorId),
     validarCampos
-], crearProducto );
+], crearProducto);
 
 module.exports = router;

@@ -3,17 +3,17 @@ const { Categoria } = require('../models');
 
 // Obtener categoria - paginado - total -populate 
 
-const obtenerCategorias = async( req, res = response ) => {
+const obtenerCategorias = async(req, res = response) => {
 
     const { limite = 5, desde = 0 } = req.query;
-    const query = { estado : true };
+    const query = { estado: true };
 
-    const [ total, categorias ] = await Promise.all([
+    const [total, categorias] = await Promise.all([
         Categoria.countDocuments(query),
         Categoria.find(query)
-            .populate('usuario','nombre')
-            .skip( Number(desde) )
-            .limit( Number(limite) )
+        .populate('usuario', 'nombre')
+        .skip(Number(desde))
+        .limit(Number(limite))
     ]);
 
     res.json({
@@ -26,18 +26,18 @@ const obtenerCategoria = async(req, res = response) => {
 
     const { id } = req.params;
 
-    const categoria = await Categoria.findById(id).populate('usuario','nombre');
+    const categoria = await Categoria.findById(id).populate('usuario', 'nombre');
 
-    res.json( categoria );
+    res.json(categoria);
 }
 
 const crearcategoria = async(req, res = response) => {
-    
+
     const nombre = req.body.nombre.toUpperCase();
 
-    const categoriaDB = await Categoria.findOne({nombre});
+    const categoriaDB = await Categoria.findOne({ nombre });
 
-    if( categoriaDB ){
+    if (categoriaDB) {
         return res.status(400).json({
             msg: `La categoria ${categoriaDB.nombre} ya existe`
         });
@@ -60,8 +60,18 @@ const crearcategoria = async(req, res = response) => {
 
 }
 
+const obtenerProductosCategoria = (req, res = response) => {
+
+    const id = req.params.id;
+
+    res.json({
+        id
+    });
+}
+
 module.exports = {
     crearcategoria,
     obtenerCategorias,
-    obtenerCategoria
+    obtenerCategoria,
+    obtenerProductosCategoria
 }
