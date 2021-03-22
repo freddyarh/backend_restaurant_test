@@ -1,5 +1,6 @@
 const { response } = require('express');
 const { Producto } = require('../models');
+const { Categoria } = require('../models');
 
 const obtenerProductos = async(req, res = response ) => {
 
@@ -60,8 +61,22 @@ const crearProducto = async(req, res = response ) => {
 
 }
 
+const obtenerProductosCategoria = async(req, res = response) => {
+
+    const id = req.params.id;
+
+    const productos = await Producto.find({ categoria: id });
+    const categoria = await Categoria.find({ _id: id });
+
+    res.json({
+        productos,
+        categoria
+    });
+}
+
 module.exports = {
     crearProducto,
     obtenerProductos,
-    obtenerProducto
+    obtenerProducto,
+    obtenerProductosCategoria
 };

@@ -5,7 +5,7 @@ const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
 
-const { crearcategoria, obtenerCategorias, obtenerCategoria, obtenerProductosCategoria } = require('../controllers/categorias');
+const { crearcategoria, obtenerCategorias, obtenerCategoria } = require('../controllers/categorias');
 const { existeCategoriaPorId } = require('../helpers/db-validators');
 // let app = express();
 
@@ -41,9 +41,6 @@ router.delete('/categoria/:id', async(req, res) => {
     res.json('delete');
 
 });
-
-//recolectar categorias con sus respectivos productos
-router.get('/categoria/productos/:id', obtenerProductosCategoria);
 
 
 module.exports = router;

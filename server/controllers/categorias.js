@@ -60,18 +60,8 @@ const crearcategoria = async(req, res = response) => {
 
 }
 
-const obtenerProductosCategoria = (req, res = response) => {
-
-    const id = req.params.id;
-
-    res.json({
-        id
-    });
-}
-
 module.exports = {
     crearcategoria,
     obtenerCategorias,
-    obtenerCategoria,
-    obtenerProductosCategoria
+    obtenerCategoria
 }

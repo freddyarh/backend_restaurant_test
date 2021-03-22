@@ -7,7 +7,8 @@ const { validarJWT } = require('../middlewares/validar-jwt');
 const {
     crearProducto,
     obtenerProductos,
-    obtenerProducto
+    obtenerProducto,
+    obtenerProductosCategoria
 } = require('../controllers/productos');
 
 
@@ -34,5 +35,8 @@ router.post('/producto', [
     check('categoria').custom(existeCategoriaPorId),
     validarCampos
 ], crearProducto);
+
+//recolectar categorias con sus respectivos productos
+router.get('/categoria/productos/:id', obtenerProductosCategoria);
 
 module.exports = router;
