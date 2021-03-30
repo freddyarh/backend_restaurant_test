@@ -4,6 +4,7 @@ const app = express();
 
 const Usuario = require('../models/usuario');
 const Producto = require('../models/producto');
+const Categoria = require('../models/categoria');
 
 const fs = require('fs');
 const path = require('path');
@@ -27,7 +28,7 @@ app.put('/uploads/:tipo/:id', function(req, res) {
     }
 
     //Validar tipo
-    let tipoValidos = ['productos', 'usuarios'];
+    let tipoValidos = ['productos', 'usuarios', 'categorias'];
 
     if (tipoValidos.indexOf(tipo) < 0) {
 
@@ -80,9 +81,11 @@ app.put('/uploads/:tipo/:id', function(req, res) {
         if (tipo === 'usuarios') {
 
             imagenUsuario(id, res, nombreArchivo);
-        } else {
+        } else if (tipo === 'productos') {
 
             imagenProducto(id, res, nombreArchivo);
+        } else {
+            imagenCategoria(id, res, nombreArchivo);
         }
 
     });
@@ -109,6 +112,14 @@ app.get(`/uploads/:tipo/:id`, async(req, res) => {
 
         case 'productos':
             modelo = await Producto.findById(id);
+            if( !modelo ){
+                return res.status(400).json({
+                    msg: `No existe un producto con el id ${ id }`
+                });
+            }
+        break;
+        case 'categorias':
+            modelo = await Categoria.findById(id);
             if( !modelo ){
                 return res.status(400).json({
                     msg: `No existe un producto con el id ${ id }`
@@ -153,7 +164,7 @@ function imagenUsuario(id, res, nombreArchivo) {
             return res.status(500).json({
                 ok: false,
                 err: {
-                    message: 'Usuario no existe1'
+                    message: 'Usuario no existe'
                 }
             })
         }
@@ -172,6 +183,52 @@ function imagenUsuario(id, res, nombreArchivo) {
             res.json({
                 ok: true,
                 usuario: usuarioGuardado,
+                img: nombreArchivo
+            });
+        });
+
+
+    });
+}
+
+function imagenCategoria(id, res, nombreArchivo) {
+    Categoria.findById(id, (err, categoriaDB) => {
+        // console.log(usuarioDB);
+        if (err) {
+            borrarArchvo(nombreArchivo, 'categorias');
+
+            return res.status(500).json({
+                ok: false,
+                err
+            })
+        }
+
+        if (!categoriaDB) {
+            borrarArchvo(nombreArchivo, 'categorias');
+
+
+            return res.status(500).json({
+                ok: false,
+                err: {
+                    message: 'Categoria no existe'
+                }
+            })
+        }
+
+        // let pathImagen = path.resolve(__dirname, `../../uploads/categorias/${categoriaDB.img}`);
+
+
+        // if (fs.existsSync(pathImagen)) {
+        //     fs.unlinkSync(pathImagen);
+        // }
+
+        borrarArchvo(categoriaDB.img, 'categorias');
+
+        categoriaDB.img = nombreArchivo;
+        categoriaDB.save((err, categoriaGuardado) => {
+            res.json({
+                ok: true,
+                categoria: categoriaGuardado,
                 img: nombreArchivo
             });
         });
@@ -199,7 +256,7 @@ function imagenProducto(id, res, nombreArchivo) {
             return res.status(500).json({
                 ok: false,
                 err: {
-                    message: 'Usuario no existe2'
+                    message: 'Producto no existe'
                 }
             })
         }
