@@ -12,7 +12,7 @@ const path = require('path');
 // default options
 app.use(fileUpload());
 
-app.put('/upload/:tipo/:id', function(req, res) {
+app.put('/uploads/:tipo/:id', function(req, res) {
 
     let tipo = req.params.tipo;
     let id = req.params.id;
@@ -67,6 +67,7 @@ app.put('/upload/:tipo/:id', function(req, res) {
 
     // Use the mv() method to place the file somewhere on your server
     archivo.mv(`uploads/${tipo}/${nombreArchivo}`, (err) => {
+        
         if (err) {
 
             return res.status(500).json({
@@ -198,7 +199,7 @@ function imagenProducto(id, res, nombreArchivo) {
             return res.status(500).json({
                 ok: false,
                 err: {
-                    message: 'Usuario no existe'
+                    message: 'Usuario no existe2'
                 }
             })
         }
