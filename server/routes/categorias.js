@@ -11,7 +11,7 @@ const { existeCategoriaPorId } = require('../helpers/db-validators');
 
 const router = Router();
 
-//Todas las categorias
+// Todas las categorias
 router.get('/categorias', obtenerCategorias);
 
 //Obtener una categoria por ID
@@ -21,7 +21,7 @@ router.get('/categoria/:id', [
     validarCampos
 ], obtenerCategoria);
 
-//Crear categoria privada con un toquen 
+// Crear categoria privada con un toquen 
 router.post('/categoria', [
     validarJWT,
     check('nombre', 'El nombre es obligatorio').not().isEmpty(),
