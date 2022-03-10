@@ -32,8 +32,8 @@ const obtenerCategoria = async(req, res = response) => {
 }
 
 const crearcategoria = async(req, res = response) => {
-
-    const nombre = req.body.nombre.toUpperCase();
+    const { descripcion } = req.body;
+    const nombre= req.body.nombre.toUpperCase();
 
     const categoriaDB = await Categoria.findOne({ nombre });
 
@@ -46,6 +46,7 @@ const crearcategoria = async(req, res = response) => {
     //Generar la data a guardar la categoria
     const data = {
         nombre,
+        descripcion,
         usuario: req.usuario._id
     }
 
