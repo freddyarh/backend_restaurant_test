@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 
-// const { Schema, model } = require('mongoose');
-
 let Schema = mongoose.Schema;
 
 const BusinessGroupSchema = new Schema({
@@ -9,7 +7,6 @@ const BusinessGroupSchema = new Schema({
     name:{
         type: String,
         required: [true, 'El nombre es necesario'],
-        unique: true
     },
     logo: {
         type: String 
