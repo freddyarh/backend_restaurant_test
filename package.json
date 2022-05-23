@@ -23,7 +23,8 @@
     "yargs": "^16.2.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "typescript": "^4.6.4"
   },
   "repository": {
     "type": "git",
