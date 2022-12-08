@@ -11,7 +11,7 @@ const { validarJWT } = require('../middlewares/validar-jwt');
 //     obtenerProductosCategoria
 // } = require('../controllers/productos');
 
-const { createBusinessGroup } = require('../controllers/businessGroup');
+const { createBusinessGroup, getBussinesGroupById } = require('../controllers/businessGroup');
 
 
 // const { existeCategoriaPorId, existeProductoPorId } = require('../helpers/db-validators');
@@ -37,6 +37,9 @@ router.post('/businessGroup/:id', [
     // check('categoria').custom(existeCategoriaPorId),
     // validarCampos
 ], createBusinessGroup);
+
+router.get('/getBussinesGroupById/:id', [
+], getBussinesGroupById);
 
 //recolectar categorias con sus respectivos productos
 // router.get('/categoria/productos/:id', obtenerProductosCategoria);

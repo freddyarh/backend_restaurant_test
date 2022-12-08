@@ -1,7 +1,7 @@
 const express = require('express');
 
 const bcrypt = require('bcrypt');
-// const _ = require('underscore');
+const _ = require('underscore');
 
 const Usuario = require('../models/usuario');
 const { verificaToken } = require('../middlewares/autenticacion');
@@ -37,22 +37,20 @@ app.get('/usuario', /*verificaToken,*/ (req, res) => {
 
                 res.json({
                     ok: true,
-                    usuarios
-                    // cuantos: conteo
+                    usuarios,
+                    counter: conteo
                 });
 
             });
 
-
         });
-
 
 });
 
 app.get('/usuario/:id',( req, res ) => {
 
-    let body = req.body;
     let id = req.params.id;
+    console.log(id);
 
     Usuario.findById(id,(err, usuario) => {
 
@@ -95,7 +93,6 @@ app.post('/usuario', /*[verificaToken, verificaAdmin_Role],*/ function(req, res)
             ok: true,
             usuario: usuarioDB
         });
-
 
     });
 
