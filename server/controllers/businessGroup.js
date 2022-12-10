@@ -26,10 +26,11 @@ const getBussinesGroupById = async(req, res = response) => {
 
     try {
         const bussinesGroup = await BusinessGroup.findById(id);
-    
+        console.log(bussinesGroup);
+
         if( !bussinesGroup ){
             return res.status(404).json({
-                msg: 'Not information finding by this id' + id
+                msg: 'Information not found by this id' + id
             });
         }
         res.status(200).json(bussinesGroup);
@@ -38,14 +39,37 @@ const getBussinesGroupById = async(req, res = response) => {
 
         console.log(error);
         res.status(500).json({
-            msg: 'talk with the administrator'
+            msg: 'Talk with the administrator'
         });
         
     }
 
 }
 
+    const getAllBussinesGroup = async(req, res = response) => {
+
+    try {
+        const bussinesGroup = await BusinessGroup.find();
+
+        if( !bussinesGroup ){
+            return res.status(404).json({
+                msg: 'There are not data to show'
+            });
+        }
+        res.status(200).json({ bussinesGroup });
+
+    } catch (error) {
+
+        console.log(error);
+        res.status(500).json({
+            msg: 'Talk with the administrator'
+        });
+        
+    }
+}
+
 module.exports = {
     createBusinessGroup,
-    getBussinesGroupById
+    getBussinesGroupById,
+    getAllBussinesGroup
 }

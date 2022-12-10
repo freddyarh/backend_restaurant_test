@@ -11,7 +11,7 @@ const { validarJWT } = require('../middlewares/validar-jwt');
 //     obtenerProductosCategoria
 // } = require('../controllers/productos');
 
-const { createBusinessGroup, getBussinesGroupById } = require('../controllers/businessGroup');
+const { createBusinessGroup, getBussinesGroupById, getAllBussinesGroup } = require('../controllers/businessGroup');
 
 
 // const { existeCategoriaPorId, existeProductoPorId } = require('../helpers/db-validators');
@@ -31,7 +31,7 @@ const router = Router();
 //     check('categoria').custom(existeCategoriaPorId),
 //     validarCampos
 // ], crearProducto);
-router.post('/businessGroup/:id', [
+router.post('/businessGroup', [
     // check('nombre', 'El nombre es obligatorio').not().isEmpty(),
     // check('categoria', 'No es un id de Mongo').isMongoId(),
     // check('categoria').custom(existeCategoriaPorId),
@@ -40,6 +40,10 @@ router.post('/businessGroup/:id', [
 
 router.get('/getBussinesGroupById/:id', [
 ], getBussinesGroupById);
+
+//Get all the BusinessGroup 
+router.get('/getAllBussinesGroup', [
+], getAllBussinesGroup);
 
 //recolectar categorias con sus respectivos productos
 // router.get('/categoria/productos/:id', obtenerProductosCategoria);
