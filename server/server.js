@@ -20,12 +20,12 @@ app.use(require('./routes/index'));
 mongoose.connect('mongodb://localhost:27017/restaurante', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }, (err, res) => {
     if (err) throw err;
 
-    console.log('Base de datos online');
+    console.log('Databse online');
 });
 
 
 app.listen(3000, () => {
-    console.log('Escuchando puerto 3000');
+    console.log('Listening port 3000');
 })
 
 module.exports = app;

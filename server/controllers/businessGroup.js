@@ -20,6 +20,31 @@ const createBusinessGroup = async(req, res = response) => {
     res.status(201).json(bussinesGroup);
 }
 
+const updateBusinessGroupById = async(req, res = response) => {
+
+    const { id } = req.params;
+    const body = req.body;
+
+    BusinessGroup.findByIdAndUpdate( id, body, { new:true }, (err, resultDB) => {
+        if( err ){
+            return res.status(500).json({
+                ok: false,
+                err
+            })
+        }
+        
+        if( !resultDB ){
+            return res.status(400).json({
+                ok: false,
+                err
+            })
+        }
+
+        res.status(200).json(resultDB);
+    });
+
+}
+
 const getBussinesGroupById = async(req, res = response) => {
     
     const { id } = req.params;
@@ -71,5 +96,6 @@ const getBussinesGroupById = async(req, res = response) => {
 module.exports = {
     createBusinessGroup,
     getBussinesGroupById,
-    getAllBussinesGroup
+    getAllBussinesGroup,
+    updateBusinessGroupById
 }
