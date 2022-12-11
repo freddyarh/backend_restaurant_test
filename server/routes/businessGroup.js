@@ -4,17 +4,14 @@ const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
 
-// const {
-//     crearProducto,
-//     obtenerProductos,
-//     obtenerProducto,
-//     obtenerProductosCategoria
-// } = require('../controllers/productos');
-
-const { createBusinessGroup, getBussinesGroupById, getAllBussinesGroup } = require('../controllers/businessGroup');
-
+const { createBusinessGroup, 
+        getBussinesGroupById, 
+        getAllBussinesGroup, 
+        updateBusinessGroupById 
+    } = require('../controllers/businessGroup');
 
 // const { existeCategoriaPorId, existeProductoPorId } = require('../helpers/db-validators');
+
 
 const router = Router();
 
@@ -32,12 +29,9 @@ const router = Router();
 //     validarCampos
 // ], crearProducto);
 router.post('/businessGroup', [
-    // check('nombre', 'El nombre es obligatorio').not().isEmpty(),
-    // check('categoria', 'No es un id de Mongo').isMongoId(),
-    // check('categoria').custom(existeCategoriaPorId),
-    // validarCampos
 ], createBusinessGroup);
 
+//Get BusinessGroup by id
 router.get('/getBussinesGroupById/:id', [
 ], getBussinesGroupById);
 
@@ -45,7 +39,8 @@ router.get('/getBussinesGroupById/:id', [
 router.get('/getAllBussinesGroup', [
 ], getAllBussinesGroup);
 
-//recolectar categorias con sus respectivos productos
-// router.get('/categoria/productos/:id', obtenerProductosCategoria);
+// Update BusinessGroup By Id
+router.put('/updateBusinessGroupById/:id', [
+], updateBusinessGroupById);
 
 module.exports = router;
