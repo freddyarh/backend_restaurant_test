@@ -11,7 +11,6 @@ const existeCategoriaPorId = async( id ) => {
     }
 
 }
-
 /**
  * Productos
  */

@@ -1,6 +1,6 @@
 node_modules/
 .env
-
+__test__
 uploads/productos/**.*
 uploads/usuarios/**.*
 uploads/categorias/**.*
